@@ -62,15 +62,25 @@ the following subject: your MacID, followed by an underscore, and then the homew
 
 ### Group projects
 
-You will be invited to form groups of four to six students. Each group will selects a topic from a list of project topics that will appear on the course website, or request approval for an alternative topic. You will study this topic and write a project proposal and report about it. At the end of the semester, your group will present its findings in class. Each group must send its submission to the TA via an email with the following subject: your project topic, followed by an underscore, and then the occasion of the submission (proposal or report). For example: my group’s project proposal for a project about Kepler would be titled `kepler_proposal`. Detailed information about project expectations will be provided during the lectures. Due to the fact that a large number of lectures are dedicated to the group project, attendance may be taken during only those classes. Out of respect to each member of your group, it is important that you attend the sessions and actively participate in the research and writing of the project.
+- You will be invited to form groups of four to six students. Each group will selects a topic from a list of project topics that will appear on the course website, or request approval for an alternative topic. You will study this topic and write a project proposal and report about it in writing (individually) and orally (as a group, in class). Detailed information about project expectations will be provided during the lectures. Due to the fact that a large number of lectures are dedicated to the group project, attendance may be taken during only those classes. Out of respect to each member of your group, it is important that you attend the sessions and actively participate in the research and writing of the project.
+
+- Your proposals (initial and final) should include the following elements:  
+
+1. A question about the natural or social world that includes *no math*.
+2. Background about that question.
+3. State variables.
+4. A description of the assumptions and parameters (including units).
+5. Model equations for addressing the question.
+6. A proposed analysis for how you would use this model to address your question.
+
+See here for an example [https://github.com/bbolker/mathmb3/tree/master/ProjectProposalExample](https://github.com/bbolker/math3mb/tree/master/ProjectProposalExample)
 
 ### Participation marks
 
 Although you may have experienced otherwise in other courses, these marks will not be arbitrary/subjective.
 Occasionally throughout the semester, you will be asked to write either the instructor or your TA an email (a few sentences to a paragraph) on a particular topic (**subject `3MB3 participation`**).  The purpose of these emails is for us to be able to assess your depth of understanding of non-technical material.  This will allow us to give you feedback and will hopefully make the preparation of your final report at the end of the term less stressful.  If you do not come to lecture you will not hear about these participatory emails.  If you do not send these emails you will receive a low participation mark. You can also enhance your participation mark by engaging with in-class exercises and coming to office hours.
 
-You
-
+You can gain your first participation mark by sending an e-mail to the instructor or the TA whose *subject line* is "math 3MB: <macid> read the outline". For example, my subject line would be "math 3MB: bolkerb read the outline".
 
 ## Course objective and content
 
