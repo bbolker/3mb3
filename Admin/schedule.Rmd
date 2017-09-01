@@ -1,0 +1,13 @@
+---
+title: "math 3mb3 schedule, fall 2017"
+date: "`r Sys.time()`"
+---
+
+```{r echo=FALSE}
+library(pander)
+ss <- read.csv("schedule.csv")
+```
+
+```{r sched,echo=FALSE,output="as.is"}
+pander(ss,justify="lllll",split.tables=Inf)
+```

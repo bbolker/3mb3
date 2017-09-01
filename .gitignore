@@ -2,3 +2,5 @@ Makefile
 configure
 .DS_Store
 *~
+.#*
+.Rhistory
