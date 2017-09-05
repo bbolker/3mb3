@@ -1,3 +1,3 @@
-# Course materials:  Math 3MB3, Fall 2017
+# Course materials:  Math 3MB3 (fall 2017)
 
-A human-friendly course home page is at https://bbolker/github.io/math3mb . This is where you should be if you want to search through course material or access the issues page/forum.
+The human-friendly course home page is at https://bbolker.github.io/math3mb . Go there if you're a human, or navigate around this site if you want to search through course material (scroll up) or access the [issues page](https://github.com/bbolker/math3mb/issues).
