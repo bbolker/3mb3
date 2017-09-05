@@ -7,7 +7,7 @@ date: "`r as.character(Sys.time())`"
 
 - When e-mailing either the instructor or the TA about the course, **please include "3MB" in the subject and your Mac ID in the body of the e-mail**.
 - *Instructor*: Ben Bolker (`bolker@mcmaster.ca`). Office hours TBA, 314 Hamilton Hall; meetings during office hours are preferred but other times may be available by appointment. For more information, see [my web page](http://www.math.mcmaster.ca/bolker). 
-- *Teaching assistants*: Peter Tait () and Alexandra Bushby (). They will be running labs, marking homework, and assisting with projects. When emailing, *please allow at least one full business day for responses.* Please note also that **the TAs may not respond to emails sent less than 24hrs before any assessment (exam/homework/project).** The primary time to get help is during lab but, time permitting, the TA may be available for extra help outside of that hour.
+- *Teaching assistants*: Peter Tait () and Alexandra Bushby (`bushbya@mcmaster.ca`). They will be running labs, marking homework, and assisting with projects. When emailing, *please allow at least one full business day for responses.* Please note also that **the TAs may not respond to emails sent less than 24hrs before any assessment (exam/homework/project).** The primary time to get help is during lab but, time permitting, the TA may be available for extra help outside of that hour.
 
 ## Class meetings
 
@@ -20,10 +20,10 @@ date: "`r as.character(Sys.time())`"
     - Labs start **Thursday 12 September** (second week of class). All required material covered in labs will be posted online (i.e., attendance is not mandatory, but you will be responsible for all material covered). Labs will be used for a combination of computational troubleshooting; computational and analytical exercises; review and clarification of lecture material; and discussion/review of assignments.
 
 ```{r get_sched,echo=FALSE}
-ss <- read.csv("schedule.csv")
+ss <- read.csv("schedule.csv",stringsAsFactors=FALSE)
 strip_date <- function(x) gsub("(^[[:alpha:]]+, +| 2017)","",x)
 mtdate <- strip_date(ss[grep("midterm",ss$topic),"date"])
-hwdates <- paste(strip_date(ss[grep("HW",ss$due),"date"]),collapse=", ")
+hwdates <- paste(strip_date(ss[grep("^HW",ss$due),"date"]),collapse=", ")
 ```
 
 ## General info
