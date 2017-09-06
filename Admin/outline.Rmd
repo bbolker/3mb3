@@ -7,7 +7,7 @@ date: "`r as.character(Sys.time())`"
 
 - When e-mailing either the instructor or the TA about the course, **please include "3MB" in the subject and your Mac ID in the body of the e-mail**.
 - *Instructor*: Ben Bolker (`bolker@mcmaster.ca`). Office hours TBA, 314 Hamilton Hall; meetings during office hours are preferred but other times may be available by appointment. For more information, see [my web page](http://www.math.mcmaster.ca/bolker). 
-- *Teaching assistants*: Peter Tait () and Alexandra Bushby (`bushbya@mcmaster.ca`). They will be running labs, marking homework, and assisting with projects. When emailing, *please allow at least one full business day for responses.* Please note also that **the TAs may not respond to emails sent less than 24hrs before any assessment (exam/homework/project).** The primary time to get help is during lab but, time permitting, the TA may be available for extra help outside of that hour.
+- *Teaching assistants*: Peter Tait (`taitpa@mcmaster.ca`) and Alexandra Bushby (`bushbya@mcmaster.ca`). They will be running labs, marking homework, and assisting with projects. When emailing, *please allow at least one full business day for responses.* Please note also that **the TAs might not respond to emails sent less than 24 hours before any assessment (exam/homework/project).** The primary time to get help is during lab but, time permitting, the TAs may be available for extra help outside of that hour.
 
 ## Class meetings
 
@@ -120,7 +120,7 @@ if appropriate, analyze the underlying mathematical structure of the model in or
      
 5.  Students' grades will be returned on Avenue.
 
-### Accomodations
+### Accommodations
 
 Students who require academic accommodation must contact Student Accessibility Services (SAS) to make arrangements with a Program Coordinator. Academic accommodations must be arranged for each term of study. Student Accessibility Services can be contacted by phone 905-525-9140 ext. 28652 or e-mail `sas@mcmaster.ca`. For further information, consult McMaster University’s [Policy for Academic Accommodation of Students with Disabilities](http://www.mcmaster.ca/policy/Students-AcademicStudies/AcademicAccommodation-StudentsWithDisabilities.pdf)
 
