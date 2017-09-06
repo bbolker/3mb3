@@ -1,0 +1,92 @@
+---
+title: "philosophical/armwaving material"
+output:
+   pdf_document:
+     includes:
+       in_header: header.tex
+       after_body: footer.tex
+author: "Ben Bolker"
+date: "`r Sys.time()`"
+bibliography: "../math3mb.bib"
+geometry: margin=1.5cm
+csl: reflist2.csl
+---
+
+\btwocol
+
+## Philosophy
+
+Modeling is *applied* math; mapping between the real world and mathematical framework.
+Getting the mapping right is the hardest part. "All models are wrong"
+(attr. George Box): want an **approximate** solution to the right question,
+rather than an exact solution to a different question.
+@platt_strong_1964: ``you can catch phenomena in a logical box or
+in a mathematical box. The logical box is coarse but strong.
+The mathematical box is fine-grained but flimsy.  The mathematical
+box is a beautiful way of wrapping up a problem, but it will not
+hold the phenomena unless they have been caught in a logical box
+to begin with.''
+
+### Categories
+
+#### Scope and approach
+
+\begin{supertabular}{ll}
+abstract & concrete \\
+strategic & tactical \\
+general & specific \\
+theoretical & applied \\
+qualitative & quantitative \\
+descriptive & predictive \\
+mathematical & statistical \\
+mechanistic & phenomenological \\
+pattern & process \\
+\end{supertabular}
+
+**Technical**
+
+\begin{supertabular}{ll}
+analytical & computational \\
+dynamic & static \\
+continuous & discrete \\
+population-based & individual-based \\
+Eulerian & Lagrangian \\
+deterministic & stochastic \\
+\end{supertabular}
+
+What is a 'simulation'?
+
+**Criteria**: generality, realism, precision [@levins_strategy_1966].
+"The validation of a model is not that it is 'true' but that it generates
+good testable hypotheses relevant to important problems" (or sufficiently accurate predictions?) ($\approx$ ``useful'')?
+
+**Limits**: data, analytical tractability, computation, human comprehension?
+
+@odenbaugh_strategy_2006: "The premature use of numerical methods (especially computer methods) can often confuse numbers with knowledge."
+
+\includegraphics[height=3in]{pix/nabian_flowchart.png}
+
+## Tools
+
+- Spreadsheets:
+    - intuitive, visible, auto-updating
+    - hard to reproduce, non-transparent, numerically sloppy, often closed-source
+- Programming languages (R, Python, MATLAB/Scilab)
+    - free and open (some), flexible, extendable, widely used
+    - harder to learn, somewhat limited for big data, no support/arrogant
+- Analytical solutions
+    - general, rigorous, computationally efficient
+    - very hard (*closed-form* solutions sometimes impossible)
+
+## modeling choices
+
+- linear / nonlinear
+- univariate / multivariate
+- discrete / continuous time
+- deterministic / stochastic
+- *also*: discrete / continuous state, individual- / population-based ...
+
+e.g. LUDD, MUDS, ...
+
+## References
+\small
