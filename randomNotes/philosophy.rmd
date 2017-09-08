@@ -1,0 +1,17 @@
+---
+title: "modeling and philosophy"
+date: "`r Sys.time()`"
+bibliography: ../math3mb.bib
+---
+
+Several people have asked for references/more information on the philosophy of modeling, or more generally the "soft stuff" around modeling (rather than the math and computation).
+
+- The references in my [first set of lecture notes](../lectureNotes/modeling1.pdf) could be useful. In particular, @levins_strategy_1966 is a classic in the area; I (and others) disagree with it on many details, but it is an early attempt to get to grips with the tradeoffs between simple mathematical caricatures that attempt to capture generalities (*strategic models*) and detailed, complex models intended for prediction of particular systems (*tactical models*) [of course this 1-dimensional spectrum/dichotomization is again oversimplifying the situation; go read the paper ...] It has been discussed and counter-argued and counter-counter-argued with over the years; @odenbaugh_strategy_2006 is one good starting point (since Levins 1966 has 1727 Google Scholar cites, just looking at downstream references isn't a practical strategy).
+- @peters_critique_1991 is another ecological classic, arguing that ecologists should get away from mechanism and describe patterns instead.
+- [William Wimsatt](https://en.wikipedia.org/wiki/William_C._Wimsatt) is a philosopher of biology who has [written a good deal about models](https://scholar.google.ca/scholar?q=author%3Awimsatt-wc+modeling), mostly in genetics and evolution
+- A 2009 article in Wired magazine suggested "The End of Theory" in the age of big data [@anderson_end_2009]. It's interesting and relevant to modeling (e.g., the phenomenological vs. mechanistic debate again), but (I think) naive. Another noteworthy philosopher of science, [Massimo Pigliucci](https://en.wikipedia.org/wiki/Massimo_Pigliucci), published a critique [@pigliucci_end_2009].
+- Linguistics presents a nice case study of (non-dynamic) modeling. Historically linguistic models were heavily theoretical/mechanistic, guided by [Noam Chomsky](https://en.wikipedia.org/wiki/Noam_Chomsky)'s theories of universal grammar. With the advent of huge corpora (bodies of textual or spoken information) that could be analyzed and the computing power to analyze them, phenomenological models have made huge strides. [Peter Norvig](https://en.wikipedia.org/wiki/Peter_Norvig), director of research at Google, has a thoughtful discussion of these issues[@norvig_chomsky_2012].
+
+More pointers are welcome!
+
+## References
