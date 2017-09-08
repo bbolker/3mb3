@@ -55,6 +55,7 @@ cobweb <- function(expr,start,N=50,
 ############################################################
 ## Example
 ############################################################
+if (FALSE) {
 r <- 2
 b <- r
 (x0 <- log(r)/b)
@@ -63,3 +64,4 @@ out <- cobweb(r*x*exp(-b*x), start = 0.5, N = 20, ylim = c(0,1), from=0,to=1,
        scol="blue",svcol="red",interact=FALSE)
 abline(v = x0)
 plot(out, type = 'l')
+}

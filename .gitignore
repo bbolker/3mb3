@@ -5,3 +5,7 @@ configure
 .#*
 .Rhistory
 gh-pages/
+*.aux
+*.log
+*.tex
+Notebooks/.ipynb_checkpoints/
