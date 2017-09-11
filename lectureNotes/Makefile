@@ -6,5 +6,4 @@ PARENT_DIR = ../../lectureNotes
 
 %.pdf: $(PARENT_DIR)/%.Rnw
 	Rscript -e "knitr::knit2pdf(\"$<\")"
-	mv $(PARENT_DIR)/$*.pdf .
 
