@@ -4,4 +4,6 @@ configure
 *.aux
 *.out
 *.log
+*.bbl
+*.blg
 lectureNotes/figure/
