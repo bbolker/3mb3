@@ -6,7 +6,7 @@ date: "`r as.character(Sys.time())`"
 ## Personnel
 
 - When e-mailing either the instructor or the TA about the course, **please include "3MB" in the subject and your Mac ID in the body of the e-mail**.
-- *Instructor*: Ben Bolker (`bolker@mcmaster.ca`). Office hours TBA, 314 Hamilton Hall; meetings during office hours are preferred but other times may be available by appointment. For more information, see [my web page](http://www.math.mcmaster.ca/bolker). 
+- *Instructor*: Ben Bolker (`bolker@mcmaster.ca`). Office hours Tues 9:30 (LSB 336), Thurs 14:30 (HH 314); meetings during office hours are preferred but other times may be available by appointment. For more information, see [my web page](http://www.math.mcmaster.ca/bolker). 
 - *Teaching assistants*: Peter Tait (`taitpa@mcmaster.ca`) and Alexandra Bushby (`bushbya@mcmaster.ca`). They will be running labs, marking homework, and assisting with projects. When emailing, *please allow at least one full business day for responses.* Please note also that **the TAs might not respond to emails sent less than 24 hours before any assessment (exam/homework/project).** The primary time to get help is during lab but, time permitting, the TAs may be available for extra help outside of that hour.
 
 ## Class meetings
@@ -17,7 +17,7 @@ date: "`r as.character(Sys.time())`"
     - Lecture periods at the end of the semester will be used for project work and presentations.
 - **Labs**
     - Th 10:30AM - 11:20AM (L01, P. Tait, BSB 244 and A. Bushby, L02, BSB 241)
-    - Labs start **Thursday 12 September** (second week of class). All required material covered in labs will be posted online (i.e., attendance is not mandatory, but you will be responsible for all material covered). Labs will be used for a combination of computational troubleshooting; computational and analytical exercises; review and clarification of lecture material; and discussion/review of assignments.
+    - Labs start **Thursday 14 September** (second week of class). All required material covered in labs will be posted online (i.e., attendance is not mandatory, but you will be responsible for all material covered). Labs will be used for a combination of computational troubleshooting; computational and analytical exercises; review and clarification of lecture material; and discussion/review of assignments.
 
 ```{r get_sched,echo=FALSE}
 ss <- read.csv("schedule.csv",stringsAsFactors=FALSE)
