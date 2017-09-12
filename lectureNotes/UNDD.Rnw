@@ -1,0 +1,116 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{xcolor}
+\usepackage{palatino}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage[margin=1.5cm]{geometry}
+\bibliographystyle{reflist}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\newcommand{\gloss}[1]{\color{purple} #1 \color{black}}
+\title{Univariate nonlinear discrete-time models}
+\author{Ben Bolker and Steve Walker}
+\date{\today}
+
+<<opts,include=FALSE>>=
+knitr::opts_chunk$set(fig.height=4,fig.width=4)
+@
+
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+\section*{Logistic model}
+
+\newcommand{\smax}[1]{#1_{\small{\textrm{max}}}}
+\newcommand{\nmax}{\smax{N}}
+\newcommand{\rmax}{\smax{R}}
+\newcommand{\equ}[1]{\ensuremath{#1^*}}
+Impose bounds on an otherwise ridiculous growth process. Begin with
+the geometric difference equation, $N(t+1) - N(t) = RN(t)$. Set $R$
+equal to a decreasing linear function of $N(t)$ with $x$-intercept,
+$\nmax$, and $y$-intercept $\rmax$. This yields the
+logistic difference equation, 
+$$
+N(t+1)-N(t) =\rmax N(1-N(t)/\nmax);
+$$ 
+Fixed points: 
+$N(t+1) - N(t) = 0 = R\equ{N}(1-\equ{N}/\nmax)$ has two solutions, $\equ{N} = 0$ and 
+$\equ{N}= \nmax$.
+Mathematically, we can set $\nmax=1$ \gloss{without loss of generality} (\gloss{non-dimensionalization}).
+
+\subsection*{Stability}
+
+The geometric recursion, $N(t+1) = f(N(t)) = RN(t)$, is stable at the
+fixed point $\equ{N} = 0$, whenever $|R| < 1$. For general scalar
+function, $f$, and fixed point $\equ{N}$, this criterion becomes
+$|f'(N)|_{N=\equ{N}} < 1$, where $f'(N)$ is the first derivative of $f$ with
+respect to $N$. Note that this is a true generalization because $f'(N)
+= R$ for the geometric model.
+
+The derivative of the function defining the logistic recursion, $f(N)
+= N + \rmax N(1-N/\nmax )$, is $f'(N) = 1 + \rmax - 2 N \rmax/\nmax$.
+\qq{When are the equilibria stable?} \gloss{Bifurcation diagrams}
+\begin{center}
+
+<<cobweb,echo=FALSE>>=
+source("../Rscripts/cobweb.R")
+par(mfrow=c(2,2))
+par(mar=c(2,4,1,1),las=1,mgp=c(2.5,1,0))
+par(cex=0.5)
+cobweb(1.1*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.5,slty=1,slwd=0.5)
+cobweb(2.5*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.5,slty=1,slwd=0.5)
+cobweb(3.1*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.3,N=50,slty=1,slwd=0.5)
+cobweb(3.9*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.3,slty=1,slwd=0.5)
+@ 
+\end{center}
+
+\cite{may_simple_1976,may_bifurcations_1976}
+
+\section*{Alternative parameterizations}
+
+An ecologist or other normal person might choose to
+parameterize the discrete logistic model as
+above.  A mathematician would choose
+$x(t+1)= Rx(1-x)$. The mathematician has chosen
+$R=r/K \to K=1-1/R$. Mathematically equivalent
+parameterizations often have quite different
+meanings (or statistical properties), as well
+as cultural connotations. Get used to it.
+
+\section*{More nonlinear models}
+Other 1-D discrete nonlinear models: \emph{Ricker} model
+($N=rNe^{-bN}$); population genetics; approximations of
+continuous models.  Epidemic models (SI) (equivalent
+to discrete logistic). Metapopulation (Levins) models.
+(\href{https://rawgit.com/bbolker/bbmisc/tree/master/talks/eco_models.pdf}{notes})
+
+\begin{equation}
+  \begin{split}
+    S(t+1) = & m(N-S) - bSI + gI \\
+    = & m(N-S) - bS(N-S) + g(N-S) \\
+    = & m(1-S) - bS(1-S) + g(1-S) \\
+    = & mI - bI(1-I) + gI \\
+    = & (m+g-b)I + bI^2 \\
+  \end{split}
+\end{equation}
+\begin{equation}
+  \begin{split}
+    N(t+1) = & N + rN(1-N/K)  \\
+    = & (1+r)N - (r/K) N^2 \\
+    = & (1+r)N-rN^2 \\
+  \end{split}
+\end{equation}
+
+Graphical approaches, continued: \emph{Allee effects}.
+Bistability, multiple stable states.
+
+\bibliography{../../math3mb}
+
+\end{multicols}
+\end{document}
