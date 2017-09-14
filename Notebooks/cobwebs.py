@@ -25,7 +25,7 @@ def fancy_cobweb(fun, x0=(1,), parms=(None,),nt=20, maxval=None):
         traj.append([])
         for j in range(nt):
             traj[i].append(x)
-            fx = fun(x)
+            fx = fun(x,parms[i])
             lines[i].extend([(x,x),(x,fx),(fx,fx)])
             x = fx
             if x>maxval:
@@ -35,7 +35,7 @@ def fancy_cobweb(fun, x0=(1,), parms=(None,),nt=20, maxval=None):
     lc = matplotlib.collections.LineCollection(lines)
     ## compute f(x) over the range
     xvec = np.linspace(0,maxval,100)
-    fxvec = fun(xvec)
+    fxvec = fun(xvec,parms[0]) ## hack
     axcob.plot(xvec,fxvec,c="red")  ## f(x)
     axcob.plot(xvec,xvec,c="black") ## 1-to-1 line
     axcob.set_xlim(0,maxval)
