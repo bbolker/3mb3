@@ -4,11 +4,22 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
 def logistfun(x,parms=(3.5,)):
-        r, = parms  ## unpack parameters
-        return(r*x*(1-x))
+    '''logistic function
+    '''
+    r, = parms  ## unpack parameters
+    return(r*x*(1-x))
     
 def bifurc(fun, parm_range, baseparms,
            parm_ind, x0=0.5, nt=1000, nt_keep=100):
+    '''generate data for a (1-dimensional) bifurcation diagram
+    fun: function fun(x,parms) taking a state variable and a tuple of parameters
+    parm_range: an iterable (tuple/list) of parameter values to evaluate
+    baseparms: tuple of baseline values of parameters
+    parm_ind: parameter index; index within baseparms to vary
+    x0: initial conditions
+    nt: total number of time steps
+    nt_keep: number of time steps to retain (out of nt)
+    '''
     res = np.zeros((len(parm_range),nt_keep))
     for i in range(len(parm_range)):
         p = parm_range[i]
