@@ -1,0 +1,17 @@
+---
+title: "chaos and modeling
+date: "`r Sys.time()`"
+bibliography: ../math3mb.bib
+---
+
+We didn't (and won't) go into a whole lot more detail about chaotic dynamics (or the chaotic behaviour of the logistic map) in this class, but here are some ideas and starting points for those who are interested.
+
+- references from the UNDD notes: @may_simple_1976, @may_bifurcations_1976
+- the [Wikipedia page on the logistic map](https://en.wikipedia.org/wiki/Logistic_map) is not bad
+- @devaney_introduction_2008 and @strogatz_nonlinear_2014 are good textbooks (I haven't actually read the second, but anything by Strogatz is worth reading)
+- an early review of chaotic dynamics in ecology: @hastings_chaos_1993
+- don't know when it will next be offered, but [math 3dc3](http://academiccalendars.romcmaster.ca/preview_course_nopop.php?catoid=7&coid=34742) covers these models at a deeper mathematical level
+
+As always, further suggestions are welcome.
+
+## References
