@@ -1,5 +1,5 @@
 ---
-title: "chaos and modeling
+title: "chaos and modeling"
 date: "`r Sys.time()`"
 bibliography: ../math3mb.bib
 ---
