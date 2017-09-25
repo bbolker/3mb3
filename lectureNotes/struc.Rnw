@@ -1,0 +1,130 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{chicago}
+\bibliographystyle{abbrv}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\newcommand{\code}[1]{{\tt #1}}
+\title{Structured models}
+\author{\copyright\ Ben Bolker: \today}
+\date{}
+\usepackage{/usr/share/R/share/texmf/tex/latex/Sweave}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+<<opts,include=FALSE>>=
+knitr::opts_chunk$set(fig.width=3,fig.height=3)
+@ 
+
+Structured models. linear only.  (Unrealistic but
+very useful for understanding short-term growth/growth when rare \ldots)
+
+e.g. \emph{Leslie matrix} model: $\mathbf A$=0 except for
+first row (fecundities, $\ge 0$) and first subdiagonal
+(survival, $0 < a_{i+1,i} \le 1$).
+\emph{Lefkovitch} model: the same except that more column entries
+can be non-zero (columns add to $\le 1$).
+
+\emph{Irreducible} non-negative matrix: For every $ij$ there exists $k$
+such that $({\mathbf A}^k)_{ij}$ is not zero.
+(There are no ``dead-end'', or absorbing stages.
+At some point, individuals in any stage will have
+`offspring' in any other stage.)
+
+\emph{Primitive} matrix: There exists $k$ such that 
+for \emph{all} $ij$, $({\mathbf A}^k)_{ij}$ is positive.
+(Equivalently: the greatest divisor of all loop lengths is 1.
+We cannot have multiple cycles running in parallel.)
+
+\emph{Perron-Frobenius theorem}: for a non-negative, irreducible,
+primitive matrix, there is a single positive largest root;
+its associated eigenvector is the only positive 
+(all-equal-sign) eigenvector.
+(If the matrix is not primitive then the largest root
+may be repeated --- i.e. out-of-phase cohorts.)
+
+If the max. modulus of the eigenvalues $\max |\lambda|$ (also called \emph{spectral radius})
+$>1$, then the population grows geometrically in the long-term; the associated eigenvalue is called
+the \emph{stable age (stage) distribution}.
+(Transients may be different; e.g. start with no adults.)
+(Note eigenvectors can be scaled any way you like: $\sum e_i=1$ is convenient for
+interpretation, Python scales so that $\sum e_i^2=1$.)
+
+Teasel model:
+
+<<>>=
+options(digits=3)
+snames <- c("dseed1","dseed2",
+            "smros","medros","lgros","flow")
+X <- matrix(c(0,0,0,0,0,322.38,
+              0.966,0,0,0,0,0,
+              0.013,0.010,0.125,0,0,3.448,
+              0.007,0,0.125,0.238,0,30.17,
+              0.008,0,0,0.245,0.167,0.862,
+              0,0,0,0.023,0.75,0),
+            byrow=TRUE,nrow=6,
+            dimnames=list(snames,snames))
+library(expm)
+x200 <- (X%^%200) %*% c(1,0,0,0,0,0)
+as.vector(x200/sum(x200))
+e1 <- eigen(X) ## eigenvalues/vectors
+e1$values[1]   ## pop. growth rate
+## speed of approach to stable distribution: 
+##    ratio of first two eigenvalues
+Mod(e1$values[2]/e1$values[1])
+as.numeric(e1$vectors[,1]/sum(e1$vectors[,1]))
+sum(e1$vectors[,1]^2)
+@ 
+
+\url{http://www.stanford.edu/~jhj1/teachingdocs/Jones-Leslie1-050208.pdf}
+
+Markov models: conserved values. Columns sum to 1.
+Lead eigenvector now equal to 1; the lead eigenvector is the stable
+distribution.
+
+If we have an absorbing state (matrix is not reducible!) then  
+the final results might depend on starting conditions: which hole
+will we fall into?
+
+Transition matrix is block-diagonal, with absorbing states forming
+an identity matrix ($a$ non-absorbing, $b$ absorbing states):
+$$
+\left(
+  \begin{array}{cc}
+    A_{b\times b} & 0_{b \times a} \\
+    B_{a\times b} & I_{a \times a} \\
+    \end{array}
+  \right)
+  $$
+  
+Can work out probability of ending up in a particular absorbing state,
+average length of time to get there.
+
+\end{multicols}
+\end{document}
+
+Horn's data matrix for the Institute Woods in Princeton:
+<<>>=
+H <- matrix(c(3,5,9,6,6,0,2,4,2,60,3,
+              0,0,47,12,8,2,8,0,3,17,3,
+              3,1,10,3,6,3,10,12,0,37,15,
+              1,1,3,20,9,1,7,6,10,25,17,
+              0,0,16,0,31,0,7,7,5,27,7,
+              0,0,6,7,4,10,7,3,14,32,17,
+              0,0,2,11,7,6,8,8,8,33,17,
+              0,0,1,3,1,3,13,4,9,49,17,
+              0,0,2,4,4,0,11,7,9,29,34,
+              0,0,13,10,9,2,8,19,3,13,23,
+              0,0,0,2,1,1,1,1,8,6,80),
+            ncol=11,byrow=TRUE)
+rowSums(H)              
+@ 
