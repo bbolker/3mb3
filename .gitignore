@@ -7,3 +7,10 @@ configure
 *.bbl
 *.blg
 lectureNotes/figure/
+../Notebooks/.ipynb_checkpoints/
+../Notebooks/__pycache__/
+*.pyc
+../labNotes/.ipynb_checkpoints/
+
+## assume no primary tex files
+*.tex

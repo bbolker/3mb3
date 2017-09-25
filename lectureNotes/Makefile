@@ -7,3 +7,5 @@ PARENT_DIR = ../../lectureNotes
 %.pdf: $(PARENT_DIR)/%.Rnw
 	Rscript -e "knitr::knit2pdf(\"$<\")"
 
+clean:
+	rm -f *.aux *.log *.toc *.bbl *.blg *.out
