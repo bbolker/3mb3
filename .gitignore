@@ -9,3 +9,4 @@ gh-pages/
 *.log
 *.tex
 Notebooks/.ipynb_checkpoints/
+*/.ipynb_checkpoints/

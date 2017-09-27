@@ -49,7 +49,7 @@ $$
 \left( \begin{array}{c} P(t) \\ S(t) \end{array}\right) 
 $$
   
-Basic model: $\bm x(t+1) = \bm A \bm x(t)$. 
+Basic model: $\bm x(t+1) = \bm M \bm x(t)$. 
 
 Alternative case,
 juvenile/adult model: fractions $\{s_J,s_A\}$ of juveniles and adults
@@ -71,14 +71,14 @@ juveniles become adults.  So $A(t+1)=s_AA(t)+s_JJ(t)$, $J(t+1)=fA(t)$
     
 \section*{Fixed points}
 
-$\bm x{\star}$ is a fixed point if $\bm x{\star} = \bm A \bm
-x{\star}$, $\bm 0 = (\bm A - \bm I) \bm x{\star}$ where $\bm I$ is the
-identity matrix. The null space of $\bm A - \bm I$ has all the fixed
-points. If $\bm A - \bm I$ is invertible, we find $\bm 0 = (\bm A -
-\bm I )^{-1}(\bm A - \bm I) \bm x{\star}$, which implies $\bm 0 = \bm
-I \bm x{\star}$, or $\bm x{\star} = \bm 0$. However, if $\bm A - \bm
+$\bm x{\star}$ is a fixed point if $\bm x{\star} = \bm M \bm
+x{\star}$, $\bm 0 = (\bm M - \bm I) \bm x{\star}$ where $\bm I$ is the
+identity matrix. The null space of $\bm M - \bm I$ has all the fixed
+points. If $\bm M - \bm I$ is invertible, we find $\bm 0 = (\bm M -
+\bm I )^{-1}(\bm M - \bm I) \bm x{\star}$, which implies $\bm 0 = \bm
+I \bm x{\star}$, or $\bm x{\star} = \bm 0$. However, if $\bm M - \bm
 I$ is not invertible, there is an $n-r$ dimensional space of
-fixed-points, where $n$ is the number of rows/columns in $\bm A - \bm
+fixed-points, where $n$ is the number of rows/columns in $\bm M - \bm
 I$ and $r$ is the rank of that matrix. A matrix is invertible if its determinant is non-zero. For example, the
 determinant of the juvenile-adult model is $-fs_J$, which is not zero
 and so the only fixed point is at the origin.
@@ -99,16 +99,16 @@ In Python, the rank, inverse, and determinant of a matrix
 %%  ... ugh ...
 Four approaches:
 \begin{description}
-\item[recursion] $\bm x(1) = \bm A \bm x(0)$, then $\bm x(2) =
-  \bm{AA} \bm x(0)$, and in general $\bm x(t) = \underbrace{\bm A
-    ... \bm A}_{t-\text{times}} \bm x(0)$.
+\item[recursion] $\bm x(1) = \bm M \bm x(0)$, then $\bm x(2) =
+  \bm{AA} \bm x(0)$, and in general $\bm x(t) = \underbrace{\bm M
+    ... \bm M}_{t-\text{times}} \bm x(0)$.
   \item[matrix powers] We can define matrix powers
 (in Python: \texttt{numpy.linalg.matrix\_power}), so that $\bm x(t) =
-    \bm A^t \bm x(0)$. This is efficient but doesn't provide much
+    \bm M^t \bm x(0)$. This is efficient but doesn't provide much
     insight. 
-  \item[diagonalization] Gain insight by \emph{diagonalizing} $\bm A =
+  \item[diagonalization] Gain insight by \emph{diagonalizing} $\bm M =
     \bm{SDS}^{-1}$, where $\bm S$ is a matrix whose columns are the
-    eigenvectors of $\bm A$ and $\bm D$ is a matrix with eigenvalues
+    eigenvectors of $\bm M$ and $\bm D$ is a matrix with eigenvalues
     on the diagonal and zeros everywhere else. Substituting into the
     matrix power equation, $\bm x(t) = \left(\bm S \bm D \bm
       S^{-1}\right)^t \bm x(0) = \underbrace{\bm S \bm D \bm S^{-1}
@@ -117,18 +117,19 @@ Four approaches:
       \bm S^{-1}}_{t-\text{times}} \bm x(0)$, because the $\bm S^{-1}
     \bm S$ terms cancel. 
    \item[series] Let $\bm c = \bm S^{-1} \bm x(0)$. This
-    allows us to write $\bm x(t) = \sum_i c_i d_i^t \bm v_i$, where
-    $c_i$, $d_i$, and $\bm v_i$ is the $i$th element of $\bm c$,
+    allows us to write $\bm x(t) = \sum_i c_i \lambda_i^t \bm v_i$, where
+    $c_i$, $\lambda_i$, and $\bm v_i$ is the $i$th element of $\bm c$,
     eigenvalue, and eigenvector respectively. This form also lets us
     see the importance of the dominant eigenvalue (i.e. eigenvalue
     with largest absolute value) -- because all the eigenvalues get
     raised to the power of time, as time increases all other terms
     except for the dominant become neglible. Therefore, for $t$
-    sufficiently large, $\bm x(t) \approx c_1 d_1^t v_1$, where $d_1$
-    is the dominant eigenvalue. \qq{What happens when $d_1 = 1$?}
-    \qq{What happens when $d_1 = d_2$? Try it out in Python}.
-   \item[change of variables] Let $\bm y(t) = \bm S^{-1} \bm
-     x(t)$. Then the model becomes $\bm y(t+1) = \bm D \bm y(t)$. But
+    sufficiently large, $\bm x(t) \approx c_1 \lambda_1^t v_1$, where $\lambda_1$
+    is the dominant eigenvalue. \qq{What happens when $\lambda_1 = 1$?}
+    \qq{What happens when $\lambda_1 = \lambda_2$? Try it out in Python}.
+   \item[change of variables] Let 
+     $\bm y(t) = \bm S^{-1} \bm x(t)$. Then the model becomes 
+     $\bm y(t+1) = \bm D \bm y(t)$. But
      since $\bm D$ is diagonal, this model is exceptionally
      simple. It is actually just a bunch of decoupled univariate
      models \qq{(Why?)}and you know how to handle those.
@@ -136,18 +137,18 @@ Four approaches:
 
 \subsection*{Eigen-tips (mostly for the 2 by 2 case)}
 
-If $\bm A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} &
+If $\bm M = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} &
   a_{22} \end{bmatrix}$, determinant is $\Delta = a_{11}a_{22} -
   a_{12}a_{21}$, trace is $T = a_{11} + a_{22}$, and eigenvalues obey
-  $d_1 + d_2 = T$ and $d_1 d_2 = \Delta$. This leads to the
-  characteristic polynomial $d_i^2 - Td_i + \Delta$. And so the
-  eigenvalues obey $d_i = (T \pm \sqrt{T^2 -
-      4\Delta})/2$. Finally, if $\bm v_i$ and $d_i$ are an
-  eigenvector/eigenvalue pair for $\bm A$, then $\bm A \bm v_i = d_i
+  $\lambda_1 + \lambda_2 = T$ and $\lambda_1 \lambda_2 = \Delta$. This leads to the
+  characteristic polynomial $\lambda_i^2 - T\lambda_i + \Delta$. And so the
+  eigenvalues obey $\lambda_i = (T \pm \sqrt{T^2 -
+      4\Delta})/2$. Finally, if $\bm v_i$ and $\lambda_i$ are an
+  eigenvector/eigenvalue pair for $\bm M$, then $\bm M \bm v_i = \lambda_i
   \bm v_i$ (i.e. a matrix and a single scalar value do the same thing
   to an eigenvector!).
   
-  Example: for the juvenile-adult model, we have $d_i = (s_A
+  Example: for the juvenile-adult model, we have $\lambda_i = (s_A
     \pm \sqrt{s_A^2 + 4s_Jf})/2$. For each eigenvalue, solve $\begin{bmatrix}
      0 & f \\ s_J & s_A \end{bmatrix} \begin{bmatrix} v_1 \\
      v_2 \end{bmatrix} = d \begin{bmatrix} v_1 \\
@@ -167,14 +168,16 @@ If $\bm A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} &
    
 \section*{Affine model}
 
-Multivariate bucket/line-up: $\bm x(t+1) = \bm b + \bm A \bm
-x(t)$. For fixed points solve $\bm x{\star} = \bm b + \bm A \bm
-x{\star}$. If $\bm A - \bm I$ is invertible, then the solution is $\bm
-x{\star} = (\bm A - \bm I)^{-1} \bm b$. Same stability conditions as
+Multivariate bucket/line-up: $\bm x(t+1) = \bm b + \bm M \bm
+x(t)$. For fixed points solve $\bm x{\star} = \bm b + \bm M \bm
+x{\star}$. If $\bm M - \bm I$ is invertible, then the solution is 
+$\bm x{\star} = (\bm I - \bm M)^{-1} \bm b$ \qq{Note the similarity
+to the affine case for univariate models \ldots}. 
+Same stability conditions as
 in the linear case. \qq{Can you reparameterize this model such that
   the fixed point is a parameter? It would be nice to just read off
   the fixed point woudn't it?}
-%$\bm x(t+1) = \bm A (\bm x(t) - \hat{\bm x})$
+%$\bm x(t+1) = \bm M (\bm x(t) - \hat{\bm x})$
 
 \end{multicols}
 \end{document}

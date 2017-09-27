@@ -11,9 +11,8 @@
 \newcommand{\qq}[1]{\color{blue} #1 \color{black}}
 \newcommand{\code}[1]{{\tt #1}}
 \title{Structured models}
-\author{\copyright\ Ben Bolker: \today}
-\date{}
-\usepackage{/usr/share/R/share/texmf/tex/latex/Sweave}
+\author{Ben Bolker}
+\date{\today}
 \begin{document}
 \maketitle
 
@@ -22,7 +21,14 @@
 \begin{multicols}{2}
 
 <<opts,include=FALSE>>=
-knitr::opts_chunk$set(fig.width=3,fig.height=3)
+library("knitr")
+## library("runr")
+## py <- proc_python()
+## py$start()
+##knit_engines$set(python = function(options) {
+##     knitr:::wrap(py$exec(options$code), options)
+## })
+opts_chunk$set(tidy=FALSE,engine='python',engine.path='python3')
 @ 
 
 Structured models. linear only.  (Unrealistic but
@@ -61,70 +67,27 @@ interpretation, Python scales so that $\sum e_i^2=1$.)
 
 Teasel model:
 
-<<>>=
-options(digits=3)
-snames <- c("dseed1","dseed2",
-            "smros","medros","lgros","flow")
-X <- matrix(c(0,0,0,0,0,322.38,
-              0.966,0,0,0,0,0,
-              0.013,0.010,0.125,0,0,3.448,
-              0.007,0,0.125,0.238,0,30.17,
-              0.008,0,0,0.245,0.167,0.862,
-              0,0,0,0.023,0.75,0),
-            byrow=TRUE,nrow=6,
-            dimnames=list(snames,snames))
-library(expm)
-x200 <- (X%^%200) %*% c(1,0,0,0,0,0)
-as.vector(x200/sum(x200))
-e1 <- eigen(X) ## eigenvalues/vectors
-e1$values[1]   ## pop. growth rate
+<<teasel>>=
+import numpy as np
+X = np.array(((0,0,0,0,0,322.38),
+              (0.966,0,0,0,0,0),
+              (0.013,0.010,0.125,0,0,3.448),
+              (0.007,0,0.125,0.238,0,30.17),
+              (0.008,0,0,0.245,0.167,0.862),
+              (0,0,0,0.023,0.75,0)))
+start = np.array((1,0,0,0,0,0))
+x200 = (np.linalg.matrix_power(X,200)).dot(start)
+np.round(x200/np.sum(x200),3)
+e1 = np.linalg.eig(X) ## eigenvalues/vectors
+np.round(e1[0][0],3)   ## pop. growth rate
 ## speed of approach to stable distribution: 
 ##    ratio of first two eigenvalues
-Mod(e1$values[2]/e1$values[1])
-as.numeric(e1$vectors[,1]/sum(e1$vectors[,1]))
-sum(e1$vectors[,1]^2)
+## snames <- c("dseed1","dseed2",
+##            "smros","medros","lgros","flow")
+np.abs(e1[0][1]/e1[0][0])
+e1[1][:,0]/np.sum(e1[1][:,0])
 @ 
 
 \url{http://www.stanford.edu/~jhj1/teachingdocs/Jones-Leslie1-050208.pdf}
-
-Markov models: conserved values. Columns sum to 1.
-Lead eigenvector now equal to 1; the lead eigenvector is the stable
-distribution.
-
-If we have an absorbing state (matrix is not reducible!) then  
-the final results might depend on starting conditions: which hole
-will we fall into?
-
-Transition matrix is block-diagonal, with absorbing states forming
-an identity matrix ($a$ non-absorbing, $b$ absorbing states):
-$$
-\left(
-  \begin{array}{cc}
-    A_{b\times b} & 0_{b \times a} \\
-    B_{a\times b} & I_{a \times a} \\
-    \end{array}
-  \right)
-  $$
-  
-Can work out probability of ending up in a particular absorbing state,
-average length of time to get there.
-
 \end{multicols}
 \end{document}
-
-Horn's data matrix for the Institute Woods in Princeton:
-<<>>=
-H <- matrix(c(3,5,9,6,6,0,2,4,2,60,3,
-              0,0,47,12,8,2,8,0,3,17,3,
-              3,1,10,3,6,3,10,12,0,37,15,
-              1,1,3,20,9,1,7,6,10,25,17,
-              0,0,16,0,31,0,7,7,5,27,7,
-              0,0,6,7,4,10,7,3,14,32,17,
-              0,0,2,11,7,6,8,8,8,33,17,
-              0,0,1,3,1,3,13,4,9,49,17,
-              0,0,2,4,4,0,11,7,9,29,34,
-              0,0,13,10,9,2,8,19,3,13,23,
-              0,0,0,2,1,1,1,1,8,6,80),
-            ncol=11,byrow=TRUE)
-rowSums(H)              
-@ 
