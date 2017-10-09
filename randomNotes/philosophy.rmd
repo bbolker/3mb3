@@ -12,6 +12,7 @@ Several people have asked for references/more information on the philosophy of m
 - A 2009 article in Wired magazine suggested "The End of Theory" in the age of big data [@anderson_end_2009]. It's interesting and relevant to modeling (e.g., the phenomenological vs. mechanistic debate again), but (I think) naive. Another noteworthy philosopher of science, [Massimo Pigliucci](https://en.wikipedia.org/wiki/Massimo_Pigliucci), published a critique [@pigliucci_end_2009].
 - Linguistics presents a nice case study of (non-dynamic) modeling. Historically linguistic models were heavily theoretical/mechanistic, guided by [Noam Chomsky](https://en.wikipedia.org/wiki/Noam_Chomsky)'s theories of universal grammar. With the advent of huge corpora (bodies of textual or spoken information) that could be analyzed and the computing power to analyze them, phenomenological models have made huge strides. [Peter Norvig](https://en.wikipedia.org/wiki/Peter_Norvig), director of research at Google, has a thoughtful discussion of these issues[@norvig_chomsky_2012].
 - the Stanford Encyclopedia of Philosophy on [Models In Science](https://plato.stanford.edu/entries/models-science/)
+- tangential, but @bolker_model_2014 discusses the philosophical underpinnings of the use of particular species as *model systems* in biology
 
 More pointers are welcome!
 
