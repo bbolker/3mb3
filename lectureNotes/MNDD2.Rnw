@@ -1,0 +1,230 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{chicago}
+\bibliographystyle{abbrv}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{2D nonlinear discrete-time models}
+\author{\copyright\ Ben Bolker: \today}
+\date{}
+\begin{document}
+\maketitle
+
+<<opts,include=FALSE>>=
+knitr::opts_chunk$set(echo=FALSE)
+@ 
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+\section*{Nicholson-Bailey}
+
+Equations: $V_{t+1} = rV_t e^{-qP_t}$, 
+$P_{t+1} = cV_t \left(1-e^{-qP_t}\right)$.
+
+Equilibria: $\{0,0\}$ and $\{r \log r/(qc(r-1),\log r/q\}$.
+$P^*$ increases with $r$ and decreases with $q$
+(more effective $P$ $\to$ \emph{fewer} $P$).
+$V^*$ decreases with $c$ and $q$ (not surprising):
+increases with $r$ (denom. of derivative = $r-1-log r)>0$ for $r>1$).
+
+Stability: need \emph{Jury conditions}:
+$|T|<1+\Delta<2$. (These are shortcuts
+
+<<juryfig>>=
+juryfig <- function(xlim=c(-2,2),ylim=c(-3,3),labs=TRUE,srt=20) {
+  plot(xlim,ylim,type="n",xlab=expression(paste("Determinant ",(Delta))),
+       ylab="Trace (T)",axes=FALSE)
+  abline(h=0,lty=3)
+  axis(side=1,at=xlim[1]:xlim[2])
+  axis(side=2,at=ylim[1]:ylim[2],las=1)
+  box(bty="l")
+  segments(-1,0,2,3,col="gray")
+  segments(-1,0,2,-3,col="gray")
+  xseg <- seq(0,1,length=50)
+  lines(xseg,2*sqrt(xseg),col="gray")
+  lines(xseg,-2*sqrt(xseg),col="gray")
+  segments(1,-2,1,2,col="gray")
+  if (labs) text(c(-1.5,-0.5,0.5,1.5),rep(0,4),
+     c("unstable","stable","stable spiral","unstable spiral"),
+     srt=srt)
+}
+juryfig()
+@
+
+(adapted from \cite{EllnerGuckenheimer2006})
+
+For N-B, Jacobian is
+$$
+\left( \begin{array}{cc} 
+    r e^{-qP^*} & -rq V^* e^{-qP^*} \\
+    c\left(1-e^{-qP^*}\right) & qc V^* e^{-qP^*}
+    \end{array}
+    \right)
+    $$
+
+At the trivial equilibrium this is
+$\left( \begin{array}{cc} 
+    r  & 0 \\ 0 & 0 
+    \end{array} \right)$;
+so $T=r$, $\Delta=0$. Boring.
+
+At the positive equilibrium
+we get $T=1+(\log r/(r-1)$,
+$\Delta=(r \log r)/(r-1)$.
+Can show this is $>1$ when $r>1$ \ldots
+therefore we are definitely unstable 
+(exercise: determine numerically when
+$\Delta>T$ and vice versa
+(i.e. unstable spirals vs. real instability).
+Examine the behavior of the N-B model starting from near
+the equilibrium to confirm your finding.)
+
+How does this match reality
+(see chapter 4 of \cite{EllnerGuckenheimer2006} for more detail)?
+What can we do about it?
+
+\bibliography{math3mb}
+\end{multicols}
+\end{document}
+
+%%%%%%
+\hrule \vskip 5pt
+{\small
+<<>>=
+NBeq <- function(q,c,r) {
+  if (r<=1) { c(V=0,P=0) } else
+  c(V=(r-1-log(r))/(q*c*(r-1)),P=log(r)/q)
+}
+NBF <- function(V,P,q,c,r) {
+  c(r*V*exp(-q*P),c*V*(1-exp(-q*P)))
+}
+nt <- 20
+mat <- matrix(ncol=2,nrow=nt)
+colnames(mat) <- c("V","P")
+mat[1,] <- NBeq(1,1,1.5)+c(0,-0.01)
+for (i in 2:nt) 
+  mat[i,] <- NBF(mat[i-1,"V"],mat[i-1,"P"],
+               1,1,1.5)
+@ 
+}
+
+<<echo=FALSE>>=
+NBgrad <- function(V,P,q,c,r) {
+  matrix(c(r*exp(-q*P),r*q*V*exp(-q*P),
+           c*(1-exp(-q*P)),q*c*V*exp(-q*P)),
+         byrow=TRUE,nrow=2,
+         dimnames=list(c("V","P"),c("V","P")))
+}
+NBeqgrad <- function(q,c,r) {
+  eq <- NBeq(q,c,r)
+  NBgrad(eq["V"],eq["P"],q,c,r)
+}
+NBeqDT <- function(q,c,r) {
+  g <- NBeqgrad(q,c,r)
+  c(det(g),sum(diag(g)))
+}
+@ 
+
+
+<<>>=
+rvec <-seq(1,8,by=0.2)
+v <- t(sapply(rvec,NBeqDT,c=1,q=1))
+par(mfrow=c(1,2),bty="l",las=1)
+matplot(rvec,v,col=1:2,type="l",lty=1,ylab="",
+        xlab="r")
+text(c(8,8),v[nrow(v),]+0.1,c("det","tr"),col=1:2,
+     cex=0.8,pos=2)
+juryfig(xlim=c(-0.5,0.5),ylim=c(0,2))
+points(v[,1],v[,2],type="o")
+text(v[c(1,nrow(v)),1],v[c(1,nrow(v)),2],
+     paste("r=",c(1,8),sep=""),pos=1,xpd=NA,cex=0.5,col=2)    
+@ 
+
+<<>>=
+library(sfsmisc)
+plot(mat[,"V"],mat[,"P"],type="o",
+     axes=FALSE,ylim=c(1e-6,10),xlim=c(1e-6,100),
+      xlab="Host density",ylab="Parasitoid density")
+eaxis(side=2,small.mult=1)
+eaxis(side=1,small.mult=1)
+box(bty="l")
+@ 
+\small
+
+<<>>=
+juryfig(labs=FALSE)
+@ 
+
+Change host-finding behavior
+($e^{-qP} = \mbox{Poisson(0)}$ to $\mbox{NBinom(0)}=(1+qP/k)^{-k}$;
+stable if $k<1$).
+
+<<>>=
+NBkeq <- function(c,q,r,k) {
+  Pstar <- k/q*(r^(1/k)-1)
+  c(V=Pstar/(c*(1-1/r)),
+    P=Pstar)
+}
+NBkF <- function(V,P,q,c,r,k) {
+  esc <- (1+q*P/k)^(-k)
+  c(V=r*V*esc,P=c*V*(1-esc))
+}
+NBkgrad <- function(q,c,r,k,P,V) {
+  esc <- (1+q*P/k)^(-k)
+  d.esc.P <- (1+q*P/k)^(-(k+1))*q/k
+  matrix(c(r*esc,r*V*d.esc.P,
+           c*(1-esc),-c*V*d.esc.P),
+         byrow=TRUE,nrow=2,
+         dimnames=list(c("V","P"),c("V","P")))
+}
+NBkeqgrad <- function(q,c,r,k) {
+  eq <- NBkeq(q,c,r,k)
+  NBkgrad(eq["V"],eq["P"],q,c,r,k)
+}
+NBkeqDT <- function(q,c,r,k) {
+  g <- NBkeqgrad(q,c,r,k)
+  c(det(g),sum(diag(g)))
+}
+nt <- 200
+mat <- matrix(ncol=2,nrow=nt)
+colnames(mat) <- c("V","P")
+mat[1,] <- NBkeq(1,1,1.5,k=0.5)+c(0,-0.01)
+for (i in 2:nt) 
+  mat[i,] <- NBkF(mat[i-1,"V"],mat[i-1,"P"],
+               1,1,1.5,k=0.5)
+@ 
+
+<<>>=
+par(mfrow=c(1,2),bty="l",las=1)
+plot(mat[,"V"],mat[,"P"],type="o",
+     xlab="Host density",ylab="")
+mtext(side=2,line=3.25,"Parasitoid density",las=0)
+kvec <-seq(10.1,0.1,by=-0.5)
+v <- t(sapply(kvec,NBkeqDT,c=1,q=1,r=2))
+juryfig(xlim=c(-1,1),ylim=c(-1,1))
+points(v[,1],v[,2],type="o")
+text(v[c(1,nrow(v)),1],v[c(1,nrow(v)),2],
+     paste("k=",c(10.1,0.1),sep=""),pos=1,xpd=NA,cex=0.5,col=2)    
+@ 
+Or add other factors to limit host growth (e.g. $V^*=r e^{-\alpha V_t} e^{-qP_t}$).
+
+\section{Epidemic model}
+
+Use  $\{S_{t+1}=m(N-S_t)-S_te^{-\beta I_t}, I_{t+1}=S_te^{-\beta I_t}-(m+\gamma)I_t$.
+
+% \bibliography{bookbib}
+% \end{multicols}
+\end{document}
+
+quiver plot/surface plot of derivatives?
+what does the surface look like?
+
+epidemic model
+
+
