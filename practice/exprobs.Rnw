@@ -1,0 +1,301 @@
+\documentclass[12pt]{article}
+\usepackage{palatino}
+\usepackage{sober}
+\newcommand{\code}[1]{{\tt #1}}
+\title{math 3mb3: midterm practice problems}
+\date{\Sexpr{Sys.time()}}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\newcommand{\soln}[1]{\ifthenelse{\boolean{solutions}}
+  {\  \\ {\color{blue} #1 \color{black}}}
+  {\ }}
+\newboolean{solutions}
+\setboolean{solutions}{true}
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\section*{1D Dynamics}
+
+1. MS p 38, Exercise 3. For more practice, find the fixed points of
+the following models. If there are no fixed points, say so. For each
+fixed point, analyse its stability using the derivative test. If the
+derivative test is inconclusive, say so.
+
+\begin{itemize}
+\item $x(t+1)= Rx(t)$
+\item $x(t+1)= a + x(t)$
+\end{itemize}
+
+2. Consider the model
+
+\[
+\begin{split}
+X(t+1) & = R X(t) \quad \textrm{if } X(t)<X_p \\
+       & = R X_p \exp(-b(X-X_p)) \quad \textrm{otherwise}
+\end{split}
+\]
+
+\begin{itemize}
+\item How many equilibria will there be if $R<1$? If $R>1$?
+\item Write down an equation that defines the equilibrium for the
+non-zero equilibrium if $R>1$ and simplify it as far as you
+can (\emph{don't try to solve it!}).
+\item For what values of the parameters is the zero equilibrium stable?
+\item Write down a criterion for the stability of the non-zero equilibrium.
+Substituting in from the question in step 2, can you express the
+stability criterion in terms of $b$ and $X^*$?
+\end{itemize}
+
+\soln{
+  \begin{itemize}
+  \item if $R<1$ the only equilibrium is at $X^*=0$. If $R>1$ there are two equilibria, one at $X^*=0$ and at a positive value of $X$ [Solution: draw the picture. A slightly more formal argument: examine $X(t+1)-X(t)$ when $X(t)>X_p$ (the exponential part of the curve). This is continuous, starts positive ($RX^*-X^* >0$ because $R>1$), and decreases monotonically to $-\infty$ as $X$, so must have exactly one root.]
+  \item 
+    \[
+    \begin{split}
+      X^* & = R X_p \exp(-b(X^*-X_p)) \\
+      \frac{X^*}{R X_p} & = \exp(-b(X^*-X_p)) \\
+      \log\left(\frac{X^*}{R X_p}\right) & = -b (X^*-X_p)
+    \end{split}
+    \]
+  \item the zero equilibrium is stable if $|f(X)|_{X=0}<1$, or $|R|<1$.
+  \item the derivative is $-b R X_p \exp(-b(X-X_p))$. At the equilibrium
+we know $-b(X^*-X_p) = \log(X^*/(R X_p))$, so the derivative is 
+
+\[
+-b R X_p \exp(\log(X^*/(R X_p))) = -b R X_p (X^*/(R X_p)) = -b X^*
+\]
+
+\end{itemize}
+}
+
+\section*{Linear models}
+
+3. We wish to model the volume of water that is present in a lake somewhere in
+Canada. Every year on New Year's Day, an engineer inspects the condition of the lake and makes an accurate calculation of the amount of water it contains. They started doing this on January 1st, 2014. At that time, the lake held exactly a million cubic meters of water. In the first year, they noticed the following three things:
+\begin{itemize}
+\item early February, when the snow melts, a quarter million cubic meters of water flows into the lake, 
+\item due to evaporation and seepage during the warm summer months, the lake loses 20\% of its water in July and 30\% of its water in August,
+\item the September rains add half a million cubic meters of water to the lake.
+\item Let's call $t$ the time in years, starting from $t = 0$ which corresponds to January 1st, 2014. Denote by $V (t)$ the amount of water (in millions of cubic meters) in the lake after $t$ years. Remark that the question is already providing you with fact that $V (0) = 1$.
+\end{itemize}
+Now answer the following questions,in order.
+\begin{itemize}
+\item How much water will be present on January 1st, 2015? In other words, what is $V(1)$?
+\item What will be the amount $V (2)$ present on January 1st, 2016?
+\item Construct a recursion equation that predicts $V (t + 1)$ given $V (t)$.
+\item What kind of model is this? Classify it (univariate or multivariate, ...).
+\item Find the equilibrium amount of water in the lake.
+\item Characterize the stability of the equilibrium.
+\end{itemize}
+
+\soln{
+\begin{itemize}
+\item There will be 1.2 (1.25 - 0.2*1.25 - 0.3*(0.8*1.25) + 0.5) in the lake (i.e. $V(1) = 1.2$) million litres of water.
+\item $V(2) = 1.312$.
+\item $V(t+1) = 0.56(V(t) + 0.25) + 0.5$, or simplifying a bit more
+$V(t+1) = 0.56 V(t) + 0.64$.
+\item It is a linear univariate discrete deterministic model. It is affine.
+\item You can either solve directly
+\[
+\begin{split}
+V \star & = 0.56 V \star + 0.64 \\
+0.44 V \star & = 0.64 \\
+V\star & = 0.64/0.44 = 1.455
+\end{split}
+\]
+or remember that the solution of the affine model $V(t+1) = a V(t) + b$ is
+$b/(1-a)$ and compute the answer that way.
+\item The equilibrium is stable because |R| < 1.
+\end{itemize}
+}
+
+\section*{MLDD models}
+
+4. (Problem 3.5 in Mooney and Swift)
+
+A copy machine is always in one of two states, either working or broken
+(not working). If it is working, there is a 70\% chance that it will
+be working tomorrow. If it is broken there is a 50\% change that it
+will still be broken tomorrow. Assume that one day is a natural time step.
+\begin{itemize}
+\item Draw a state diagram, labeling the states, using arrows to
+denote the direction of flow, and labeling paths with the per capita flow.
+\item Formulate the transition matrix.
+\item Assuming that the machine is working today, what is the probability
+that it will be working tomorrow?  The next day?
+\item Explain what operations you would have to perform on \textbf{M}
+to determine the long-term average probability that the machine is
+working on any given day.
+\end{itemize}
+\soln{
+
+Transition matrix:
+\[
+\mathbf M = \left( \begin{array}{cc} 0.7 & 0.5 \\ 0.3 & 0.5 \end{array} \right)
+\]
+
+Tomorrow: 0.7.  The next day: $\mathbf M^2 (1 0)^\top = \mathbf M (0.7 0.3)^\top = (0.64 0.36)$, so 0.64.
+
+Long-term solution: find the eigenvector associated with the dominant
+eigenvalue $\lambda_1=1$, or solve $\mathbf M (x y)^\top = (x y)^\top$
+subject to $x+y=1$.
+}
+
+5. (Problem 3.7 in Mooney and Swift). Do this problem, but don't do any of the actual linear algebra in part c: just identify the steps you would have to take (i.e. write down the numeric values of the matrices and identify what steps (inversion, multiplication, etc.) are necessary to solve the problem.
+
+\section*{MNDD models}
+
+6. (From Jan Feys) Multivariate models also arise in economics. Consider the
+competition between two companies A and B in a \textbf{duopoly},
+meaning that they have the whole market split between them. Company A
+brings $x$ units to the market at a production cost of $\alpha$ per
+unit, while company B brings $y$ at a production cost of $\beta$ per
+unit. Assuming that the price the units sell for is $p = 1/(x + y)$,
+the profits (sales income minus production cost) of the companies are
+
+\[
+P_A = \frac{x}{x+y} - \alpha x, \quad P_B = \frac{y}{x+y} - \beta y \quad .
+\]
+
+Company A hired a mathematician to ensure maximum profitability. To this end, the mathematician sets out to maximize $P_A$ by taking its derivative with respect to $x$ and setting it to 0. He determines the optimal output to be
+
+\[
+x = \sqrt{\frac{y}{\alpha}} - y \quad .
+\]
+
+That means that company A decides how many units to produce purely on how many units company B is producing! Of course, company B also has a mathematician on payroll who comes to a similar conclusion.
+The discrete model that governs the dynamics of x and y is strongly coupled. It reads
+\[
+\begin{split}
+x(t + 1) & = \sqrt{\frac{y(t)}{\alpha}} - y(t) , \\
+y(t + 1) & = \sqrt{\frac{x(t)}{\alpha}} - x(t)
+\end{split}
+\]
+
+Assume $\alpha$ and $\beta$ are positive constants. Answer the following three questions.
+
+\begin{itemize}
+\item Classify the model (according to the scheme we have been using in class: ULDD, etc.)
+\item What are the fixed points of the system?
+\item What is the stability of this system?
+\end{itemize}
+
+\soln{
+a. It is a nonlinear multivariate discrete deterministic model.
+
+b. Setting $x(t + 1) = x(t) = x\star$ and $y(t + 1) = y(t) = y \star$ , we get
+\[
+x \star = \sqrt{\frac{y \star}{\alpha}} - y \star, \quad
+y \star = \sqrt{\frac{x \star}{\beta}} - x \star
+\]
+
+The shortest way to proceed is to rearrange these expressions as
+\[
+x \star + y \star = \sqrt{\frac{y \star}{\alpha}}, \quad
+y \star + x \star = \sqrt{\frac{x \star}{\beta}}
+\]
+
+Combining both equations leads to $y \star = \alpha x \star/\beta$.
+Substituting this into the second equation leads to
+\[
+\left(\frac{\alpha}{\beta}+1\right) = \sqrt{\frac{x \star}{\beta}} \quad .
+\]
+Squaring both sides gives 
+\[
+\frac{(\alpha + \beta)^2}{\beta^2} (x\star )^2 = \frac{x \star}{\beta}.
+\]
+
+We conclude that either $x \star = 0$ and $y \star = 0$ or
+\[
+x \star = \frac{\beta}{(\alpha + \beta)^2}, \quad
+y \star = \frac{\alpha}{(\alpha + \beta)^2} \quad .
+\]
+
+c. The Jacobian of the system can be found to be
+
+\[
+J(x, y) =
+\left( \begin{array}{cc} 0 &  \frac{1}{2\sqrt{\alpha y}} -1 \\
+             \frac{1}{2\sqrt{\beta x}} -1  & 0 \end{array}  \right)
+\]
+
+which at the non-zero fixed point equals
+
+\[
+\left( \begin{array}{cc} 0 & - \frac{\alpha-\beta}{2\alpha} \\
+                         \frac{\alpha-\beta}{2\alpha} & 0 
+\end{array}  \right)
+\]
+
+The eigenvalues $\lambda_\pm$ of this matrix satisfy $\textrm{det} (J(x \star , y \star ) − \lambda I) = 0$. It follows that
+
+\[
+\lambda_{\pm}  = \frac{i |\alpha \pm \beta|}{\sqrt{4 \alpha \beta}},
+\]
+
+The stability criterion states that the absolute value of the largest eigenvalue must be smaller than one. Here both eigenvalues have the same modulus:
+\[
+|\lambda_+  = |\lambda_- | = \frac{|\alpha-\beta|}{\sqrt{4 \alpha \beta}} \quad.
+\]
+
+For stability this last expression has to be less than one. One way this is violated is if $\alpha − \beta$ is large.
+}
+
+7.  (Steve Walker) Find the equilibrium/equilibria of the following system and classify its/their stability.
+
+\[
+\begin{split}
+x(t + 1) & =x(t) - y(t) + 1 \\
+y(t + 1) & =y(t) - y(t)^2 + x(t)
+\end{split}
+\]
+\soln{
+$y\star = 1$ by the first equation and $x\star = 1$ by substituting $y\star=1$ in the second equation and solving. The Jacobian is
+\[
+\left(\begin{array}{cc} 1 & -1 \\ 1 & 1-2y\star \end{array} \right) = 
+\left(\begin{array}{cc} 1 & -1 \\ 1 & -1 \end{array} \right)
+\]
+Therefore the trace is $T = 0$ and determinant is $\Delta = 0$. First of all,
+we have that the determinant $\Delta$ is less than one and so we can't yet rule
+out stability. Then we have $|T| < \Delta + 1$ which in this case is $0 < 1$, which is
+always true. Therefore, the equilibrium $x\star = y\star = 1$ is stable.
+}
+
+\section*{Python}
+
+8. 
+
+\begin{itemize}
+\item Write a Python program that runs the discrete logistic map $X_{t+1}=RX_t(1-X_t)$ for 100 time steps, i.e. from $t=0$ up to $t=99$, using parameter $R=3$ and starting condition $X=0.5$.
+\item Now write a new program that saves all the values from $X(0)$ to $X(99)$ in a numpy array.
+\end{itemize}
+
+\soln{
+
+First problem:
+<<python_prob,engine='python'>>=
+x = 0.5 # set starting condition
+R = 3   # set parameter value
+for t in range(100):
+   x = R*x*(1-x)    
+@ 
+
+Note that \code{range(100)} goes from 0 to 99.
+
+Second problem:
+<<python_prob2,engine='python'>>=
+import numpy as np
+x = np.zeros(100)
+x[0] = 0.5 # set starting condition
+R = 3   # set parameter value
+for t in range(1,100): # start at 1 and go to 99
+   x[t] = R*x[t-1]*(1-x[t-1])    
+@
+
+In the second case, you have to be careful about where you start and stop
+(if you try to refer to \code{x[100]} you'll get an error because the indices
+of \code{x} run from 0 to 99), but this version works. 
+
+}
+\end{document}

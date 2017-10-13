@@ -65,29 +65,26 @@ the \emph{stable age (stage) distribution}.
 (Note eigenvectors can be scaled any way you like: $\sum e_i=1$ is convenient for
 interpretation, Python scales so that $\sum e_i^2=1$.)
 
-Teasel model:
+\section{Markov models}
 
-<<teasel>>=
-import numpy as np
-X = np.array(((0,0,0,0,0,322.38),
-              (0.966,0,0,0,0,0),
-              (0.013,0.010,0.125,0,0,3.448),
-              (0.007,0,0.125,0.238,0,30.17),
-              (0.008,0,0,0.245,0.167,0.862),
-              (0,0,0,0.023,0.75,0)))
-start = np.array((1,0,0,0,0,0))
-x200 = (np.linalg.matrix_power(X,200)).dot(start)
-np.round(x200/np.sum(x200),3)
-e1 = np.linalg.eig(X) ## eigenvalues/vectors
-np.round(e1[0][0],3)   ## pop. growth rate
-## speed of approach to stable distribution: 
-##    ratio of first two eigenvalues
-## snames <- c("dseed1","dseed2",
-##            "smros","medros","lgros","flow")
-np.abs(e1[0][1]/e1[0][0])
-e1[1][:,0]/np.sum(e1[1][:,0])
-@ 
+Special case of structured models: columns of
+transition matrix sum to 1 ($\sum_i \mathbf M_{ij}=1$). 
+$\mathbf M - \mathbf I$ is \textbf{not} invertible.
+Dominant eigenvalue is 1; its associated eigenvector $e_1$
+(scaled to sum to 1) is the equilibrium state of the
+system. (Any multiple of $e_1$ is also technically an equilibrium,
+but we restrict starting values $p(0)$ to sum to 1.)
 
-\url{http://www.stanford.edu/~jhj1/teachingdocs/Jones-Leslie1-050208.pdf}
-\end{multicols}
+An \textbf{absorbing state} is a state with only inflows, no
+outflows; if state $j$ is absorbing,
+$\mathbf M_{jj}=1$, $\mathbf M_{ij}=0$ for all $i \neq j$.
+If the Markov model has absorbing states, we can compute useful
+stuff by ordering the state vector/transition matrix so that
+the absorbing states are the \emph{last} elements; if there are
+$a$ non-absorbing and $b$ absorbing states, denote 
+the top left $a \times a$ matrix as $\mathbf A$ and the bottom left
+$b \times a$ matrix as $\mathbf B$.  Then $\mathbf F=(\mathbf I - \mathbf A)^{-1}$ ($a \times a$) represents the number of expected time steps spent in each state $i$ before absorption, if starting in state $j$ (the column sums represent the total number of time steps before absorption if starting in state $j$).
+$\mathbf B \mathbf F$ ($b \times a$) gives the probability of absorption in 
+state $i$ if starting in state $j$.
+
 \end{document}

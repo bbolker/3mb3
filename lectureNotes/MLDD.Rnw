@@ -20,7 +20,9 @@
 
 
 <<include=FALSE>>=
-knitr::opts_chunk$set(height=2.7,fig.width=3)
+library("knitr")
+opts_chunk$set(height=2.7,fig.width=3)
+opts_chunk$set(tidy=FALSE,engine="python",engine.path='python3',eval=FALSE)
 @
 
  \setkeys{Gin}{width=3in} 
