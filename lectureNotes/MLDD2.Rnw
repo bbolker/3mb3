@@ -1,0 +1,91 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{chicago}
+\bibliographystyle{abbrv}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\newcommand{\code}[1]{{\tt #1}}
+\title{Structured models}
+\author{Ben Bolker}
+\date{\today}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+<<opts,include=FALSE>>=
+library("knitr")
+## library("runr")
+## py <- proc_python()
+## py$start()
+##knit_engines$set(python = function(options) {
+##     knitr:::wrap(py$exec(options$code), options)
+## })
+opts_chunk$set(tidy=FALSE,engine='python',engine.path='python3')
+@ 
+
+Structured models. linear only.  (Unrealistic but
+very useful for understanding short-term growth/growth when rare \ldots)
+
+e.g. \emph{Leslie matrix} model: $\mathbf A$=0 except for
+first row (fecundities, $\ge 0$) and first subdiagonal
+(survival, $0 < a_{i+1,i} \le 1$).
+\emph{Lefkovitch} model: the same except that more column entries
+can be non-zero (columns add to $\le 1$).
+
+\emph{Irreducible} non-negative matrix: For every $ij$ there exists $k$
+such that $({\mathbf A}^k)_{ij}$ is not zero.
+(There are no ``dead-end'', or absorbing stages.
+At some point, individuals in any stage will have
+`offspring' in any other stage.)
+
+\emph{Primitive} matrix: There exists $k$ such that 
+for \emph{all} $ij$, $({\mathbf A}^k)_{ij}$ is positive.
+(Equivalently: the greatest divisor of all loop lengths is 1.
+We cannot have multiple cycles running in parallel.)
+
+\emph{Perron-Frobenius theorem}: for a non-negative, irreducible,
+primitive matrix, there is a single positive largest root;
+its associated eigenvector is the only positive 
+(all-equal-sign) eigenvector.
+(If the matrix is not primitive then the largest root
+may be repeated --- i.e. out-of-phase cohorts.)
+
+If the max. modulus of the eigenvalues $\max |\lambda|$ (also called \emph{spectral radius})
+$>1$, then the population grows geometrically in the long-term; the associated eigenvalue is called
+the \emph{stable age (stage) distribution}.
+(Transients may be different; e.g. start with no adults.)
+(Note eigenvectors can be scaled any way you like: $\sum e_i=1$ is convenient for
+interpretation, Python scales so that $\sum e_i^2=1$.)
+
+\section{Markov models}
+
+Special case of structured models: columns of
+transition matrix sum to 1 ($\sum_i \mathbf M_{ij}=1$). 
+$\mathbf M - \mathbf I$ is \textbf{not} invertible.
+Dominant eigenvalue is 1; its associated eigenvector $e_1$
+(scaled to sum to 1) is the equilibrium state of the
+system. (Any multiple of $e_1$ is also technically an equilibrium,
+but we restrict starting values $p(0)$ to sum to 1.)
+
+An \textbf{absorbing state} is a state with only inflows, no
+outflows; if state $j$ is absorbing,
+$\mathbf M_{jj}=1$, $\mathbf M_{ij}=0$ for all $i \neq j$.
+If the Markov model has absorbing states, we can compute useful
+stuff by ordering the state vector/transition matrix so that
+the absorbing states are the \emph{last} elements; if there are
+$a$ non-absorbing and $b$ absorbing states, denote 
+the top left $a \times a$ matrix as $\mathbf A$ and the bottom left
+$b \times a$ matrix as $\mathbf B$.  Then $\mathbf F=(\mathbf I - \mathbf A)^{-1}$ ($a \times a$) represents the number of expected time steps spent in each state $i$ before absorption, if starting in state $j$ (the column sums represent the total number of time steps before absorption if starting in state $j$).
+$\mathbf B \mathbf F$ ($b \times a$) gives the probability of absorption in 
+state $i$ if starting in state $j$.
+\end{multicols}
+
+\end{document}

@@ -10,7 +10,7 @@
   {\  \\ {\color{blue} #1 \color{black}}}
   {\ }}
 \newboolean{solutions}
-\setboolean{solutions}{true}
+\setboolean{solutions}{false}
 \setlength\parindent{0pt}
 
 \begin{document}
