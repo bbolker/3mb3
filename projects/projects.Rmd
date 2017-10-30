@@ -1,6 +1,6 @@
 ---
 title: "projects"
-date: "`r System.time()`"
+date: "`r Sys.time()`"
 bibliography: ../math3mb.bib
 ---
 
