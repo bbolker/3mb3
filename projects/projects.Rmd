@@ -1,0 +1,186 @@
+---
+title: "projects"
+date: "`r System.time()`"
+bibliography: ../math3mb.bib
+---
+
+## 1. Richardson's model
+
+(Mooney and Swift project 5.2, p. 310)
+
+Described in more detail by M&S, but: this is a differential
+equation model for the rates of armament expenditure of two
+countries locked in an arms rate. The state variables
+$x$ and $y$ are the annual
+rates of expenditure, and
+we suppose the rates of expenditure depend
+positively on the expenditure of the other country
+(with coefficients $a$, $b$) and negatively
+on one's own expenditure (with coefficients
+$-m$, $-n$, so that your expenditure would decay
+exponentially if the other country stopped spending).
+If we further assume there are "underlying grievances"
+$r$ and $s$ that drive
+an increase in expenditure even in the absence of spending by
+the other country: then we get
+
+$$
+\begin{split}
+\frac{dx}{dt} & = ay - mx +r \\
+\frac{dy}{dt} & = bx - ny + s
+\end{split}
+$$
+
+### Simplification
+
+See the analytical questions in
+sections 1 and 2 of the project, which describe analyses
+that are definitely within your capabilities
+
+### Complexification
+
+- try the numerical solutions
+- try the open-ended extensions (section 3) such as a
+three-way competition model
+- try a stochastic version, or a discrete-time version
+
+## 2. Carbon cycle model
+
+Carbon is a key element in terrestrial ecosystems. It enters
+the soil when plants die, or shed leaves and branches
+(called "litterfall"); it leaves the system by being
+turned into carbon dioxide by bacterial metabolism or
+other chemical processes. It makes sense to model this
+process via one ODE (for the amount of carbon in the litter
+compartment) or multiple ODEs (considering carbon
+moving through various compartments in the soil).
+
+### Simplification
+
+See part 1 of Mooney and Swift's project.
+
+### Parameterization
+
+See Mooney and Swift or @bpp96.
+
+### Complexification
+
+- See part 2 of Mooney and Swift's project.
+- You could also consider seasonal forcing (e.g. sinusoidal
+variation in rates of deposition and decay), or pulsed inputs
+to the system.
+
+## 3. Drugs in the body
+
+Mooney and Swift project 5.10
+
+### Simplification
+
+- work through example 5.2.4 and part 1 of the project.
+
+### Parameterization
+
+It shouldn't be too hard to find pharmacokinetic parameters
+such as the rate of metabolism/loss of various drugs: for
+example @remien_mathematical_2012 (this is not necessarily
+the best reference; I found it following links from a
+quick Google search for "drug metabolism ODE parameters" (a
+Google Scholar search might have been better).
+
+### Complexification
+
+- work on parts 2-4 of the project
+- consider compartmental models where the drug needs to enter
+another compartment (e.g., it is injected in the blood but needs
+to diffuse into organs, or is swallowed and needs to diffuse into
+the blood stream)
+- consider a model of periodic (rather than one-time) administration
+
+## 4. Goodwin/Keen model of an economy
+
+This is a model from @keen_finance_1995, later elaborated by @grasselli_analysis_2012. In the equations below $\lambda$ represents employment rate
+(fraction of the work force employed); $\omega$ represents the wages share of national income; $w$ represents workers' wages as a function of the unemployment rate $\lambda$. (This is the *simplest* version of the model!)
+
+$$
+\begin{split}
+\frac{d\lambda}{dt} & = \lambda \left(\frac{1-\omega}{\nu} - \alpha-\beta-\gamma\right) \\
+\frac{d\omega}{dt} & = \omega(w(\lambda)-\alpha) \\
+w(\lambda) & = A/((B-C \lambda)^2 - D)
+\end{split}
+$$
+
+### Simplification
+
+- If necessary, try changing $w(\lambda)$ to a simpler specification.
+
+### Complexification
+
+Read @keen_finance_1995 and @grasselli_analysis_2012 and hope your head doesn't explode.
+
+## 5. SIRF/SHERIF model
+
+We have seen a discrete-time version of the SIR (susceptible/infected/recovered) model in class; the continuous-time variant is even better known. There are hundreds of variants of the SIR model dealing with various complexities of disease biology and human society [@hethcote_thousand_1994]. One recent variation is the SHERIF model [@champredon_two_2017], developed to analyze the recent West African Ebola outbreak, which adds Hospitalized, Exposed, and Funeral compartments to the SIR model (the order is chosen for pronounceability). To make things simpler, consider the SIFR model, which includes transmission caused by contact occurring at funerals.
+
+$$
+\begin{split}
+\frac{dS}{dt} = -\beta S I - \beta_F S F \\
+\frac{dI}{dt} = \beta S I + \beta_F S F - \gamma I \\
+\frac{dF}{dt} = \gamma I - \sigma F \\
+\frac{dR}{dt} = \sigma F 
+\end{split}
+$$
+
+### Simplification
+
+- Because there is no input of people into the model, the SIRF equation doesn't have a simple equilibrium other than zero. Add vital dynamics ($dS/dt$ gains a $+\mu N - \mu S$ term; the other compartments use a loss term with a *per capita* rate $\mu$ (e.g. $-\mu I$ for the $I$ compartment)).
+- If necessary, drop the $F$ compartment and analyze the $SIR$ equation.
+
+### Parameterization
+
+- See @champredon_two_2017 and @li_essential_2017.
+
+### Complexification
+
+- Allow for effective control of funerals by diverting some people from $I$ directly to $R$ without going through $F$.
+- Make a stochastic version.
+- Add the $E$ and $H$ terms to produce a full SHERIF model
+
+## 6. Credit risk model
+
+Changes in credit risk of a company can be modeled as a Markov model where companies move among categories until they default. In general we expect credit risks to be ordered: in general, considering movement from compartment $i$ to $j$, we expect that $m_{ij}$ decreases monotonically with $|i-j|$ (the bigger distance between credit risks, the less likely it is to make that transition in one step). We could take a leap and imagine some special cases such as
+
+$$
+\mathbf M = \left( \begin{array}{cccc}
+\rho   & 1-\rho/2 &      0    & \dots \\
+1-\rho & \rho     & 1-\rho/2  & \dots \\
+0      & 1-\rho/2 &    \rho   & \dots \\
+0      &   0      & 1 -\rho/2 & \dots \\
+0      &   0      &     0     & \dots \\
+\vdots & \vdots   & \vdots    & \ddots
+\end{array} \right)
+$$
+(companies can only move one step up or down in a time period).
+
+Given the transition matrix, we want to know some of the standard
+things for a Markov matrix with absorbing states, e.g.: what
+is the expected time to end up in default, starting from various states?
+(Since there is only a single absorbing state in this case,
+we don't need to calculate which absorbing state we end up in.)
+
+### Simplification
+
+Reduce the matrix until it's very small (2x2? 3x3?), and/or simplify
+the structure of the matrix to a point where the linear algebra
+can be done analytically.
+
+### Parameterization
+
+See notes from Lozinski and Grasselli (to be posted)
+
+### Complexification
+
+- Try to estimate parameters from data.
+- Make a stochastic version.
+
+
+## References
