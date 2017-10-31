@@ -116,7 +116,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">projects</h1>
-<h4 class="date"><em>‘r System.time()’</em></h4>
+<h4 class="date"><em>2017-10-30 17:43:48</em></h4>
 
 </div>
 
@@ -211,23 +211,23 @@ w(\lambda) &amp; = A/((B-C \lambda)^2 - D)
 <p>We have seen a discrete-time version of the SIR (susceptible/infected/recovered) model in class; the continuous-time variant is even better known. There are hundreds of variants of the SIR model dealing with various complexities of disease biology and human society <span class="citation">(Hethcote 1994)</span>. One recent variation is the SHERIF model <span class="citation">(Champredon et al. 2017)</span>, developed to analyze the recent West African Ebola outbreak, which adds Hospitalized, Exposed, and Funeral compartments to the SIR model (the order is chosen for pronounceability). To make things simpler, consider the SIFR model, which includes transmission caused by contact occurring at funerals.</p>
 <p><span class="math display">\[
 \begin{split}
-\frac{dS}{dt} = -\beta S I - \beta_F F I 
-\frac{dI}{dt} = \beta S I + \beta_F F I - \gamma I
-\frac{dF}{dt} = \gamma I - \sigma F
-\frac{dR}{dt} = \sigma F
+\frac{dS}{dt} = -\beta S I - \beta_F S F \\
+\frac{dI}{dt} = \beta S I + \beta_F S F - \gamma I \\
+\frac{dF}{dt} = \gamma I - \sigma F \\
+\frac{dR}{dt} = \sigma F 
 \end{split}
 \]</span></p>
 <div id="simplification-4" class="section level3">
 <h3>Simplification</h3>
 <ul>
-<li>Because there is no input of people into the model, the SIRF equation doesn’t have a simple equilibrium other than zero. Add vital dynamics (<span class="math inline">\(dS/dt\)</span> gains a <span class="math inline">\(+\mu N - \mu S\)</span> term; the other compartments use a loss term with a <em>per capita</em> rate <span class="math inline">\(\mu\)</span> (e.g. <span class="math inline">\(-\mu I\)</span> for the <span class="math inline">\(I\)</span> compartment).</li>
+<li>Because there is no input of people into the model, the SIRF equation doesn’t have a simple equilibrium other than zero. Add vital dynamics (<span class="math inline">\(dS/dt\)</span> gains a <span class="math inline">\(+\mu N - \mu S\)</span> term; the other compartments use a loss term with a <em>per capita</em> rate <span class="math inline">\(\mu\)</span> (e.g. <span class="math inline">\(-\mu I\)</span> for the <span class="math inline">\(I\)</span> compartment)).</li>
 <li>If necessary, drop the <span class="math inline">\(F\)</span> compartment and analyze the <span class="math inline">\(SIR\)</span> equation.</li>
 </ul>
 </div>
 <div id="parameterization-2" class="section level3">
 <h3>Parameterization</h3>
 <ul>
-<li>See <span class="citation">Champredon et al. (2017)</span> and li_essential_2017.</li>
+<li>See <span class="citation">Champredon et al. (2017)</span> and <span class="citation">S.-L. Li et al. (2017)</span>.</li>
 </ul>
 </div>
 <div id="complexification-4" class="section level3">
@@ -273,7 +273,7 @@ w(\lambda) &amp; = A/((B-C \lambda)^2 - D)
 <h2>References</h2>
 <div id="refs" class="references">
 <div id="ref-bpp96">
-<p>Bolker, B. M., S. W. Pacala, and W. J. Parton Jr. 1998. “Linear Analysis of Soil Decomposition: Insights from the Century Model.” <em>Eapp</em> 8 (2): 425–39.</p>
+<p>Bolker, B. M., S. W. Pacala, and W. J. Parton Jr. 1998. “Linear Analysis of Soil Decomposition: Insights from the Century Model.” <em>Ecological Applications</em> 8 (2): 425–39.</p>
 </div>
 <div id="ref-champredon_two_2017">
 <p>Champredon, David, Michael Li, Benjamin M. Bolker, and Jonathan Dushoff. 2017. “Two Approaches to Forecast Ebola Synthetic Epidemics.” <em>Epidemics</em>, February. doi:<a href="https://doi.org/10.1016/j.epidem.2017.02.011">10.1016/j.epidem.2017.02.011</a>.</p>
@@ -286,6 +286,9 @@ w(\lambda) &amp; = A/((B-C \lambda)^2 - D)
 </div>
 <div id="ref-keen_finance_1995">
 <p>Keen, Steve. 1995. “Finance and Economic Breakdown: Modeling Minsky’s ‘Financial Instability Hypothesis’.” <em>Journal of Post Keynesian Economics</em> 17 (4): 607–35.</p>
+</div>
+<div id="ref-li_essential_2017">
+<p>Li, Shou-Li, Ottar N. Bjørnstad, Matthew J. Ferrari, Riley Mummah, Michael C. Runge, Christopher J. Fonnesbeck, Michael J. Tildesley, William J. M. Probert, and Katriona Shea. 2017. “Essential Information: Uncertainty and Optimal Control of Ebola Outbreaks.” <em>Proceedings of the National Academy of Sciences</em> 114 (22): 5659–64. doi:<a href="https://doi.org/10.1073/pnas.1617482114">10.1073/pnas.1617482114</a>.</p>
 </div>
 <div id="ref-remien_mathematical_2012">
 <p>Remien, Christopher H., Frederick R. Adler, Lindsey Waddoups, Terry D. Box, and Norman L. Sussman. 2012. “Mathematical Modeling of Liver Injury and Dysfunction After Acetaminophen Overdose: Early Discrimination Between Survival and Death.” <em>Hepatology</em> 56 (2): 727–34. doi:<a href="https://doi.org/10.1002/hep.25656">10.1002/hep.25656</a>.</p>
